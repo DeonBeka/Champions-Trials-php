@@ -1,8 +1,0 @@
-# Deny direct access to includes and services
-<FilesMatch "^(includes|services)/.*\.php$">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>
-
-# Prevent directory browsing
-Options -Indexes

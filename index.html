@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Connect - Connect Volunteers with Opportunities</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-hands-helping"></i> Volunteer Connect
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('opportunities')">Opportunities</a></li>
+                <li><a href="#" onclick="showPage('volunteers')">Volunteers</a></li>
+                <li><a href="#" onclick="showPage('messages')">Messages</a></li>
+                <li><a href="#" onclick="showPage('dashboard')">Dashboard</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn btn-outline" onclick="showPage('login')" id="loginBtn">Login</button>
+                <button class="btn btn-primary" onclick="showPage('signup')" id="signupBtn">Sign Up</button>
+                <button class="btn btn-primary" onclick="logout()" id="logoutBtn" style="display: none;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home/Hero Page -->
+        <section id="homePage" class="page active">
+            <div class="hero">
+                <div class="container">
+                    <h1>Connect. Volunteer. Make a Difference.</h1>
+                    <p>Join thousands of volunteers and organizations making positive change in communities worldwide.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-secondary btn-large" onclick="showPage('signup')">
+                            <i class="fas fa-user-plus"></i> Get Started Today
+                        </button>
+                        <button class="btn btn-outline btn-large" onclick="showPage('opportunities')">
+                            <i class="fas fa-search"></i> Browse Opportunities
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-section">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label">Active Volunteers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Partner Organizations</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">50,000+</div>
+                            <div class="stat-label">Hours Contributed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">1,200+</div>
+                            <div class="stat-label">Active Opportunities</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <h2 class="section-title">How It Works</h2>
+                    <div class="grid grid-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="user-type-icon">👤</div>
+                                <h3>Create Your Profile</h3>
+                            </div>
+                            <p>Sign up and build a detailed profile showcasing your skills, interests, and availability.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="user-type-icon">🔍</div>
+                                <h3>Find Matches</h3>
+                            </div>
+                            <p>Discover opportunities that align with your passions or find volunteers perfect for your cause.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="user-type-icon">🤝</div>
+                                <h3>Connect & Collaborate</h3>
+                            </div>
+                            <p>Message, apply, and start making a real difference in your community.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sign Up Page -->
+        <section id="signupPage" class="page">
+            <div class="container">
+                <div class="auth-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Join Volunteer Connect</h2>
+                            <p class="card-subtitle">Start making a difference today</p>
+                        </div>
+                        
+                        <div class="message message-info" id="signupMessage" style="display: none;"></div>
+                        
+                        <form id="signupForm">
+                            <!-- User Type Selection -->
+                            <div class="form-group">
+                                <label class="form-label">I want to:</label>
+                                <div class="user-type-selector">
+                                    <div class="user-type-card" onclick="selectUserType('volunteer')">
+                                        <div class="user-type-icon">🤝</div>
+                                        <div class="user-type-title">Volunteer</div>
+                                        <p>Help organizations and make a difference</p>
+                                    </div>
+                                    <div class="user-type-card" onclick="selectUserType('organization')">
+                                        <div class="user-type-icon">🏢</div>
+                                        <div class="user-type-title">Organization</div>
+                                        <p>Find volunteers for your cause</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Basic Information -->
+                            <div class="form-group">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" class="form-input" id="fullName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" class="form-input" id="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Password *</label>
+                                <input type="password" class="form-input" id="password" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Location *</label>
+                                <input type="text" class="form-input" id="location" placeholder="City, Country" required>
+                            </div>
+                            
+                            <!-- Volunteer Specific Fields -->
+                            <div id="volunteerFields" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">Skills & Expertise</label>
+                                    <div class="tags-container">
+                                        <span class="tag" onclick="toggleTag(this)">Teaching</span>
+                                        <span class="tag" onclick="toggleTag(this)">Healthcare</span>
+                                        <span class="tag" onclick="toggleTag(this)">Construction</span>
+                                        <span class="tag" onclick="toggleTag(this)">IT/Tech</span>
+                                        <span class="tag" onclick="toggleTag(this)">Marketing</span>
+                                        <span class="tag" onclick="toggleTag(this)">Event Planning</span>
+                                        <span class="tag" onclick="toggleTag(this)">Counseling</span>
+                                        <span class="tag" onclick="toggleTag(this)">Environmental</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Areas of Interest</label>
+                                    <div class="tags-container">
+                                        <span class="tag" onclick="toggleTag(this)">Education</span>
+                                        <span class="tag" onclick="toggleTag(this)">Health</span>
+                                        <span class="tag" onclick="toggleTag(this)">Environment</span>
+                                        <span class="tag" onclick="toggleTag(this)">Animal Welfare</span>
+                                        <span class="tag" onclick="toggleTag(this)">Arts & Culture</span>
+                                        <span class="tag" onclick="toggleTag(this)">Community Service</span>
+                                        <span class="tag" onclick="toggleTag(this)">Disaster Relief</span>
+                                        <span class="tag" onclick="toggleTag(this)">Senior Care</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Availability</label>
+                                    <select class="form-select" id="availability">
+                                        <option value="">Select availability</option>
+                                        <option value="weekends">Weekends only</option>
+                                        <option value="evenings">Evenings</option>
+                                        <option value="weekdays">Weekdays</option>
+                                        <option value="flexible">Flexible</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Hours per week</label>
+                                    <input type="number" class="form-input" id="hoursPerWeek" min="1" max="40" placeholder="e.g., 5">
+                                </div>
+                            </div>
+                            
+                            <!-- Organization Specific Fields -->
+                            <div id="organizationFields" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">Organization Name *</label>
+                                    <input type="text" class="form-input" id="orgName" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Organization Type *</label>
+                                    <select class="form-select" id="orgType" required>
+                                        <option value="">Select type</option>
+                                        <option value="nonprofit">Non-Profit</option>
+                                        <option value="charity">Charity</option>
+                                        <option value="school">Educational Institution</option>
+                                        <option value="hospital">Healthcare</option>
+                                        <option value="government">Government</option>
+                                        <option value="community">Community Group</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Mission Statement</label>
+                                    <textarea class="form-textarea" id="missionStatement" placeholder="Describe your organization's mission..."></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Website</label>
+                                    <input type="url" class="form-input" id="website" placeholder="https://yourwebsite.com">
+                                </div>
+                            </div>
+                            
+                            <!-- Bio -->
+                            <div class="form-group">
+                                <label class="form-label">Bio/About *</label>
+                                <textarea class="form-textarea" id="bio" required placeholder="Tell us about yourself or your organization..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                        </form>
+                        
+                        <div class="auth-footer">
+                            <p>Already have an account? <a href="#" onclick="showPage('login')">Log in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Page -->
+        <section id="loginPage" class="page">
+            <div class="container">
+                <div class="auth-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Welcome Back</h2>
+                            <p class="card-subtitle">Sign in to your Volunteer Connect account</p>
+                        </div>
+                        
+                        <div class="message message-error" id="loginMessage" style="display: none;"></div>
+                        
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" id="loginEmail" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-input" id="loginPassword" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="rememberMe">
+                                    <span class="checkmark"></span>
+                                    Remember me
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                        </form>
+                        
+                        <div class="auth-footer">
+                            <p>Don't have an account? <a href="#" onclick="showPage('signup')">Sign up</a></p>
+                            <p><a href="#" onclick="showForgotPassword()">Forgot password?</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Opportunities Page -->
+        <section id="opportunitiesPage" class="page">
+            <div class="container">
+                <h1 class="page-title">Volunteer Opportunities</h1>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search opportunities..." id="opportunitySearch">
+                    <select class="form-select" id="locationFilter">
+                        <option value="">All Locations</option>
+                        <option value="nearby">Near Me</option>
+                        <option value="remote">Remote</option>
+                    </select>
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="education">Education</option>
+                        <option value="health">Health</option>
+                        <option value="environment">Environment</option>
+                        <option value="animals">Animal Welfare</option>
+                        <option value="community">Community Service</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="searchOpportunities()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                
+                <div class="opportunities-grid">
+                    <!-- Opportunity cards will be dynamically generated -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Volunteers Page -->
+        <section id="volunteersPage" class="page">
+            <div class="container">
+                <h1 class="page-title">Find Volunteers</h1>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search volunteers by skills or interests..." id="volunteerSearch">
+                    <select class="form-select" id="skillFilter">
+                        <option value="">All Skills</option>
+                        <option value="teaching">Teaching</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="tech">IT/Tech</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="events">Event Planning</option>
+                    </select>
+                    <select class="form-select" id="availabilityFilter">
+                        <option value="">Any Availability</option>
+                        <option value="weekends">Weekends</option>
+                        <option value="evenings">Evenings</option>
+                        <option value="weekdays">Weekdays</option>
+                        <option value="flexible">Flexible</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="searchVolunteers()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                
+                <div class="volunteers-grid">
+                    <!-- Volunteer cards will be dynamically generated -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Page -->
+        <section id="dashboardPage" class="page">
+            <div class="container">
+                <h1 class="page-title">My Dashboard</h1>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalApplications">0</div>
+                        <div class="stat-label">Applications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalHours">0</div>
+                        <div class="stat-label">Hours Volunteered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalOpportunities">0</div>
+                        <div class="stat-label">Opportunities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalConnections">0</div>
+                        <div class="stat-label">Connections</div>
+                    </div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('profile')">Profile</button>
+                    <button class="tab" onclick="switchTab('applications')">Applications</button>
+                    <button class="tab" onclick="switchTab('schedule')">Schedule</button>
+                    <button class="tab" onclick="switchTab('settings')">Settings</button>
+                </div>
+                
+                <!-- Profile Tab -->
+                <div id="profileTab" class="tab-content active">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Profile Information</h3>
+                            <button class="btn btn-outline" onclick="editProfile()">Edit Profile</button>
+                        </div>
+                        <div id="profileContent">
+                            <!-- Profile content will be dynamically generated -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Applications Tab -->
+                <div id="applicationsTab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>My Applications</h3>
+                        </div>
+                        <div id="applicationsList">
+                            <!-- Applications will be dynamically generated -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Schedule Tab -->
+                <div id="scheduleTab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>My Schedule</h3>
+                            <button class="btn btn-primary" onclick="addScheduleItem()">Add Event</button>
+                        </div>
+                        <div class="calendar">
+                            <div class="calendar-header">
+                                <button class="btn btn-outline" onclick="previousMonth()">←</button>
+                                <h4 id="calendarMonth">December 2024</h4>
+                                <button class="btn btn-outline" onclick="nextMonth()">→</button>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab -->
+                <div id="settingsTab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Settings</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Notifications</label>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Profile Visibility</label>
+                            <select class="form-select">
+                                <option>Public</option>
+                                <option>Private</option>
+                                <option>Connections Only</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Messages Page -->
+        <section id="messagesPage" class="page">
+            <div class="container">
+                <h1 class="page-title">Messages</h1>
+                
+                <div class="messages-container">
+                    <div class="conversations-list">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Conversations</h3>
+                                <button class="btn btn-primary" onclick="startNewConversation()">New Message</button>
+                            </div>
+                            <div id="conversationsList">
+                                <!-- Conversations will be dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="conversation-view">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 id="conversationTitle">Select a conversation</h3>
+                            </div>
+                            <div id="messagesContainer">
+                                <!-- Messages will be dynamically generated -->
+                            </div>
+                            <div class="message-input-container">
+                                <input type="text" class="form-input" id="messageInput" placeholder="Type your message...">
+                                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for additional features -->
+    <div class="modal" id="featureModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Modal content will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
