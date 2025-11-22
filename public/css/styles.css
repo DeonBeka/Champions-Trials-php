@@ -1,0 +1,94 @@
+/* public/css/styles.css
+   Modern, professional theme: variables, responsive, minimalistic.
+   Adjust colors and fonts to taste.
+*/
+
+:root{
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: linear-gradient(90deg,#2b8ef7 0%,#5bd17a 100%);
+  --primary: #1565d8;
+  --radius: 12px;
+  --shadow: 0 6px 24px rgba(13, 42, 80, 0.08);
+  --glass: rgba(255,255,255,0.65);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* Containers */
+.vc-container{max-width:1120px;margin:0 auto;padding:28px}
+
+/* Header */
+.vc-header{background:#fff;border-bottom:1px solid rgba(15,23,42,0.04);position:sticky;top:0;z-index:80}
+.header-inner{display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--primary);font-weight:700}
+.brand-text{font-size:18px}
+.nav{margin-left:20px;display:flex;gap:18px;align-items:center}
+.nav a{color:#0f172a;text-decoration:none;font-weight:500;opacity:0.85}
+.auth{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* Buttons */
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);color:#0f172a;padding:8px 12px;border-radius:10px}
+.btn-primary{background:var(--primary);color:#fff;border:none;padding:8px 12px;border-radius:10px}
+.btn-primary:hover{filter:brightness(0.95)}
+.btn-cta{background:linear-gradient(90deg,#06f 0%,#00c6ff 100%);color:#fff;padding:12px 20px;border-radius:12px;box-shadow:0 8px 30px rgba(41,121,255,0.12)}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid rgba(15,23,42,0.06);padding:12px 20px;border-radius:12px}
+
+/* Nav toggle for small screens */
+.nav-toggle{display:none;border:0;background:transparent;font-size:20px;margin-left:12px}
+
+/* Hero */
+.hero{padding:48px 0 64px;background:linear-gradient(180deg,rgba(9,62,158,0.06) 0%,transparent 60%);}
+.hero-inner{display:grid;grid-template-columns:1fr 460px;gap:28px;align-items:center}
+.hero-left h1{font-size:42px;margin:0 0 12px;letter-spacing:-0.5px}
+.hero-left .accent{background:linear-gradient(90deg,#2b8ef7,#5bd17a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:17px;margin-bottom:18px}
+.hero-cta{display:flex;gap:12px;margin-bottom:20px}
+.hero-stats{display:flex;gap:12px;margin:18px 0 0;padding:0;list-style:none}
+.hero-stats li{background:var(--card);padding:12px;border-radius:10px;box-shadow:var(--shadow);flex:1;text-align:center}
+.hero-stats li strong{display:block;font-size:20px;color:#155bd6}
+.hero-right .hero-card{background:var(--card);border-radius:16px;padding:12px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center}
+.hero-right img{max-width:100%;height:auto;border-radius:10px}
+
+/* How it works */
+.how-it-works{padding:36px 0}
+.section-title{font-size:22px;margin-bottom:18px}
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.info-card{background:var(--card);border-radius:12px;padding:20px;box-shadow:var(--shadow);min-height:140px}
+.info-card .icon{font-size:30px;margin-bottom:10px}
+.info-card h3{margin:0 0 8px}
+.info-card p{color:var(--muted);margin:0}
+
+/* Footer */
+.vc-footer{margin-top:40px;background:transparent;padding:20px;border-top:1px solid rgba(15,23,42,0.04)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+
+/* Small screens */
+@media (max-width:980px){
+  .hero-inner{grid-template-columns:1fr; padding-bottom:8px}
+  .hero-right{order:2}
+  .nav{display:none}
+  .nav-toggle{display:block}
+  .cards-grid{grid-template-columns:1fr;gap:12px}
+}
+
+/* Very small */
+@media (max-width:420px){
+  .vc-container{padding:16px}
+  .hero-left h1{font-size:28px}
+  .hero-stats{flex-direction:column}
+}
+
