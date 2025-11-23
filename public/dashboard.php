@@ -28,17 +28,44 @@ require_once __DIR__ . '/../includes/header.php';
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
           <?php foreach ($places as $p): ?>
             <div class="place-card" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;">
-              <?php if ($p['image']): ?>
-                <img src="uploads/places/<?php echo e($p['image']); ?>" alt="" style="width:100%;border-radius:10px;margin-bottom:12px;height:150px;object-fit:cover;">
+              <?php if ($p['image'] && file_exists(__DIR__ . '/../uploads/' . $p['image'])): ?>
+                <img src="../uploads/<?php echo e($p['image']); ?>" alt="" style="width:100%;border-radius:10px;margin-bottom:12px;height:150px;object-fit:cover;">
               <?php endif; ?>
               <h4 style="margin:0 0 6px;"><?php echo e($p['title']); ?></h4>
               <p style="margin:0 0 6px;"><?php echo e(substr($p['description'],0,100)); ?>...</p>
               <p style="margin:0 0 6px;"><strong>Applicants:</strong> <?php echo $p['applicants_count']; ?></p>
-              <a href="place_detail.php?id=<?php echo $p['id']; ?>" class="btn btn-ghost" style="margin-top:auto;">Manage</a>
+              <div style="margin-top:auto; display:flex; gap:8px; flex-wrap:wrap;">
+                <a href="place_detail.php?id=<?php echo $p['id']; ?>" class="btn btn-ghost">Manage</a>
+                <form method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to remove this place?');">
+                  <input type="hidden" name="delete_place_id" value="<?php echo $p['id']; ?>">
+                  <button type="submit" class="btn btn-ghost" style="background:#f8d7da;color:#a40000;border:none;">Remove</button>
+                </form>
+              </div>
             </div>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
+
+      <?php
+      // Handle deletion of a place
+      if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['delete_place_id'])) {
+          $place_id = (int)$_POST['delete_place_id'];
+
+          // Make sure the current user owns the place
+          $stmt = $pdo->prepare('SELECT * FROM places WHERE id = ? AND seeker_id = ?');
+          $stmt->execute([$place_id, $user['id']]);
+          $place = $stmt->fetch();
+
+          if ($place) {
+              $stmt = $pdo->prepare('DELETE FROM places WHERE id = ?');
+              $stmt->execute([$place_id]);
+              header('Location: dashboard.php');
+              exit;
+          } else {
+              echo '<p style="color:red;">You can only remove your own places.</p>';
+          }
+      }
+      ?>
 
   <?php else: ?>
       <p>You are a <strong>volunteer</strong>. Browse volunteer places below:</p>
@@ -54,8 +81,8 @@ require_once __DIR__ . '/../includes/header.php';
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
           <?php foreach ($places as $p): ?>
             <div class="place-card" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;">
-              <?php if ($p['image']): ?>
-                <img src="uploads/places/<?php echo e($p['image']); ?>" alt="" style="width:100%;border-radius:10px;margin-bottom:12px;height:150px;object-fit:cover;">
+              <?php if ($p['image'] && file_exists(__DIR__ . '/../uploads/' . $p['image'])): ?>
+                <img src="../uploads/<?php echo e($p['image']); ?>" alt="" style="width:100%;border-radius:10px;margin-bottom:12px;height:150px;object-fit:cover;">
               <?php endif; ?>
               <h4 style="margin:0 0 6px;"><?php echo e($p['title']); ?></h4>
               <p style="margin:0 0 6px;"><?php echo e(substr($p['description'],0,100)); ?>...</p>
@@ -83,4 +110,3 @@ require_once __DIR__ . '/../includes/header.php';
 </style>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
-
