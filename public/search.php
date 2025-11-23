@@ -31,15 +31,30 @@ $results = $stmt->fetchAll();
       <p>No results found.</p>
   <?php else: ?>
       <div class="results-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
-      <?php foreach ($results as $r): ?>
+      <?php foreach ($results as $r):
+            // Fetch average rating and count for this volunteer
+            $stmt2 = $pdo->prepare('SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM ratings WHERE volunteer_id=?');
+            $stmt2->execute([$r['id']]);
+            $rating_data = $stmt2->fetch();
+            $avg_rating = round($rating_data['avg_rating'],1);
+            $total_ratings = $rating_data['total'];
+      ?>
           <div class="volunteer-card" style="background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform 0.2s;">
             <img src="uploads/avatars/<?php echo e($r['photo'] ?? 'avatar1.png'); ?>" alt="avatar" style="width:80px;height:80px;border-radius:50%;margin-bottom:12px;">
             <h3 style="margin:0 0 6px;"><?php echo e($r['name'] ?: 'User #' . e($r['id'])); ?></h3>
             <small style="color:var(--muted);margin-bottom:10px;"><?php echo e($r['user_type']); ?></small>
             <p style="margin:0 0 6px;"><strong>Interests:</strong> <?php echo e($r['interests']); ?></p>
             <p style="margin:0 0 6px;"><strong>Skills:</strong> <?php echo e($r['skills']); ?></p>
+            <p style="margin:0 0 6px;color:var(--muted);">
+                <strong>Rating:</strong>
+                <?php if ($total_ratings > 0): ?>
+                    <?php echo $avg_rating; ?> ★ (<?php echo $total_ratings; ?>)
+                <?php else: ?>
+                    No ratings yet
+                <?php endif; ?>
+            </p>
             <p style="margin:0 0 10px;color:var(--muted);"><?php echo e($r['location']); ?></p>
-            <a href="profile.php?id=<?php echo e($r['id']); ?>" class="btn btn-ghost" style="margin-top:auto;">View Profile</a>
+            <a href="profile_view.php?id=<?php echo e($r['id']); ?>" class="btn btn-ghost" style="margin-top:auto;">View Profile</a>
           </div>
       <?php endforeach; ?>
       </div>
@@ -60,4 +75,6 @@ $results = $stmt->fetchAll();
 </style>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+
+
 
