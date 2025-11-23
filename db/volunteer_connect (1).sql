@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2025 at 04:22 PM
+-- Generation Time: Nov 23, 2025 at 04:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -131,21 +131,22 @@ CREATE TABLE `users` (
   `location` varchar(255) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_admin` tinyint(1) DEFAULT 0
+  `is_admin` tinyint(1) DEFAULT 0,
+  `availability` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `user_type`, `name`, `interests`, `skills`, `bio`, `location`, `photo`, `created_at`, `is_admin`) VALUES
-(1, 'deonbeka@gmail.com', '$2y$10$zlgN0qlLkKVR2LF.8Yi2MuGeiwtH8Zkz0NFDe9Wer23U3S1oJp5WS', 'seeker', 'deon', 'no interests', 'very heavy muscle', 'asd', 'pristina', 'avatar2.png', '2025-11-23 09:39:07', 0),
-(2, 'amantzabeli@gmail.com', '$2y$10$zhifjokrcZktXowIzz7fM.ay4cV3Ki1dMz3rDoF9T0XRyYMMHbaxm', 'volunteer', 'Amant', 'art,animals', 'coding', 'asd', 'Kosovo', 'avatar4.png', '2025-11-23 10:04:52', 0),
-(3, 'dren@gmail.com', '$2y$10$dF5havrAUhpiKSix793K.ugjeomGuLJMnSMbKEjuiKivpsfko0tfi', 'volunteer', 'Dren', 'art,animals', 'coding, fast', 'im tall and fast', 'Albania', 'avatar3.png', '2025-11-23 13:01:17', 0),
-(4, 'amar@gmail.com', '$2y$10$kxl2V/Nk8DLm8NrPyY8x8.xLLRrPg6SR4eamAGK.clB7BMyoxCsqu', 'volunteer', 'amar', 'art,animals', 'coding, fast,strong', 'asd', 'Kosovo', 'avatar1.png', '2025-11-23 13:08:02', 0),
-(5, 'gert@gmail.com', '$2y$10$f1vHm8QZWq1yfJb12aJUOuRel.n8TNr2FGaxFuVTbNa1qn.JNCBie', 'seeker', 'Gert', 'no interests', 'good', 'sgag', 'Kosovo', 'avatar4.png', '2025-11-23 13:25:48', 0),
-(6, 'elmedina@gmail.com', '$2y$10$oQhwthKoYNc1LKv6k.bf/O6yz0hf1ZS.iDCqSlP7aHXNf89RhepiK', 'volunteer', 'Elmedina', 'art,animals', 'coding, fast', 'gag', 'Kosovo', 'avatar1.png', '2025-11-23 13:36:35', 0),
-(7, 'admin@admin.com', '$2y$10$Ti6jG32e3S1xfimYim8o.e0.F42xyvvBFvzkJStuQYxRHgNcDMN/O', 'volunteer', 'admin', 'no interests', 'no', 'Admin', 'Kosovo', 'avatar2.png', '2025-11-23 14:15:54', 1);
+INSERT INTO `users` (`id`, `email`, `password`, `user_type`, `name`, `interests`, `skills`, `bio`, `location`, `photo`, `created_at`, `is_admin`, `availability`) VALUES
+(1, 'deonbeka@gmail.com', '$2y$10$zlgN0qlLkKVR2LF.8Yi2MuGeiwtH8Zkz0NFDe9Wer23U3S1oJp5WS', 'seeker', 'deon', 'no interests', 'very heavy muscle', 'asd', 'pristina', 'avatar2.png', '2025-11-23 09:39:07', 0, NULL),
+(2, 'amantzabeli@gmail.com', '$2y$10$zhifjokrcZktXowIzz7fM.ay4cV3Ki1dMz3rDoF9T0XRyYMMHbaxm', 'volunteer', 'Amant', 'art,animals', 'coding', 'asd', 'Kosovo', 'avatar4.png', '2025-11-23 10:04:52', 0, NULL),
+(3, 'dren@gmail.com', '$2y$10$dF5havrAUhpiKSix793K.ugjeomGuLJMnSMbKEjuiKivpsfko0tfi', 'volunteer', 'Dren', 'art,animals', 'coding, fast', 'im tall and fast', 'Albania', 'avatar3.png', '2025-11-23 13:01:17', 0, NULL),
+(4, 'amar@gmail.com', '$2y$10$kxl2V/Nk8DLm8NrPyY8x8.xLLRrPg6SR4eamAGK.clB7BMyoxCsqu', 'volunteer', 'amar', 'art,animals', 'coding, fast,strong', 'asd', 'Kosovo', 'avatar1.png', '2025-11-23 13:08:02', 0, NULL),
+(5, 'gert@gmail.com', '$2y$10$f1vHm8QZWq1yfJb12aJUOuRel.n8TNr2FGaxFuVTbNa1qn.JNCBie', 'seeker', 'Gert', 'no interests', 'good', 'sgag', 'Kosovo', 'avatar4.png', '2025-11-23 13:25:48', 0, NULL),
+(6, 'elmedina@gmail.com', '$2y$10$oQhwthKoYNc1LKv6k.bf/O6yz0hf1ZS.iDCqSlP7aHXNf89RhepiK', 'volunteer', 'Elmedina', 'art,animals', 'coding, fast', 'gag', 'Kosovo', 'avatar1.png', '2025-11-23 13:36:35', 0, NULL),
+(7, 'admin@admin.com', '$2y$10$Ti6jG32e3S1xfimYim8o.e0.F42xyvvBFvzkJStuQYxRHgNcDMN/O', 'volunteer', 'admin', 'no interests', 'no', 'Admin', 'Kosovo', 'avatar2.png', '2025-11-23 14:15:54', 1, NULL);
 
 --
 -- Indexes for dumped tables

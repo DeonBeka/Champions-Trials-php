@@ -3,22 +3,15 @@ require_once __DIR__ . '/../includes/init.php';
 require_login();
 
 $user = current_user($pdo);
-$avatars = ['avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png'];
+$avatars = ['avatar1.png','avatar2.png','avatar3.png','avatar4.png'];
 
-// Countries that recognize Kosovo + Kosovo itself
-$countries = [
-    "Albania","Australia","Austria","Belgium","Bosnia and Herzegovina",
-    "Bulgaria","Canada","Croatia","Czech Republic","Denmark",
-    "Estonia","Finland","France","Germany","Greece",
-    "Hungary","Iceland","Ireland","Italy","Japan",
-    "Latvia","Lithuania","Luxembourg","Malta","Montenegro",
-    "Netherlands","New Zealand","North Macedonia","Norway","Poland",
-    "Portugal","Slovakia","Slovenia","Sweden","Switzerland",
-    "Turkey","United Kingdom","United States","Kosovo"
+$availability_options = [
+    'Weekdays',
+    'Weekends',
+    'Evenings',
+    'Mornings',
+    'Flexible'
 ];
-
-$errors = [];
-$success = '';
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,19 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $skills = trim($_POST['skills'] ?? '');
     $bio = trim($_POST['bio'] ?? '');
     $location = trim($_POST['location'] ?? '');
-    $photo = $_POST['photo'] ?? $user['photo'] ?? null;
+    $availability = $_POST['availability'] ?? $user['availability'];
+    $photo = $_POST['photo'] ?? $user['photo'];
 
-    // Validate location
-    if (!in_array($location, $countries)) {
-        $errors[] = 'Please select a valid country from the list.';
+    // Optional: Validate that availability is valid
+    if (!in_array($availability, $availability_options)) {
+        $availability = null; // or handle error
     }
 
-    if (empty($errors)) {
-        $stmt = $pdo->prepare('UPDATE users SET name=?, interests=?, skills=?, bio=?, location=?, photo=? WHERE id=?');
-        $stmt->execute([$name, $interests, $skills, $bio, $location, $photo, $user['id']]);
-        $success = 'Profile updated successfully!';
-        $user = current_user($pdo); // Refresh user data
-    }
+    $stmt = $pdo->prepare('UPDATE users SET name=?, interests=?, skills=?, bio=?, location=?, photo=?, availability=? WHERE id=?');
+    $stmt->execute([$name, $interests, $skills, $bio, $location, $photo, $availability, $user['id']]);
+
+    $user = current_user($pdo);
 }
 
 // Get volunteer rating
@@ -55,15 +47,6 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="page-wrapper">
   <div class="form-container">
     <h2>Edit Profile</h2>
-
-    <?php if ($errors): ?>
-        <div class="errors">
-            <?php foreach ($errors as $e) echo '<p>'.e($e).'</p>'; ?>
-        </div>
-    <?php elseif($success): ?>
-        <div class="success"><?php echo e($success); ?></div>
-    <?php endif; ?>
-
     <form method="post" class="form">
 
       <label>Name
@@ -81,16 +64,23 @@ require_once __DIR__ . '/../includes/header.php';
       </label>
 
       <label>Location
-        <input list="countries" id="location-input" name="location" value="<?php echo e($user['location'] ?? ''); ?>" placeholder="Select a country..." autocomplete="off">
-        <datalist id="countries">
-          <?php foreach($countries as $c): ?>
-            <option value="<?php echo e($c); ?>">
-          <?php endforeach; ?>
-        </datalist>
+        <input type="text" name="location" value="<?php echo e($user['location'] ?? ''); ?>">
       </label>
 
       <label>Bio
         <textarea name="bio"><?php echo e($user['bio'] ?? ''); ?></textarea>
+      </label>
+
+      <!-- Availability Dropdown -->
+      <label>Availability
+        <select name="availability" required>
+          <option value="">-- Select Availability --</option>
+          <?php foreach($availability_options as $option): ?>
+            <option value="<?php echo $option; ?>" <?php echo ($user['availability'] === $option) ? 'selected' : ''; ?>>
+              <?php echo $option; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
       </label>
 
       <label>Choose Avatar</label>
@@ -117,6 +107,7 @@ require_once __DIR__ . '/../includes/header.php';
     <p><strong>Interests:</strong> <?php echo e($user['interests']); ?></p>
     <p><strong>Skills:</strong> <?php echo e($user['skills']); ?></p>
     <p><strong>Location:</strong> <?php echo e($user['location']); ?></p>
+    <p><strong>Availability:</strong> <?php echo e($user['availability'] ?? 'Not set'); ?></p>
     <p><?php echo nl2br(e($user['bio'])); ?></p>
     <p><strong>Rating:</strong> <?php echo $avg_rating ?: 0; ?> ★ (<?php echo $total_ratings; ?> ratings)</p>
   </div>
@@ -132,9 +123,6 @@ require_once __DIR__ . '/../includes/header.php';
 .profile-preview { margin:40px auto; max-width:500px; text-align:center; }
 .profile-card { background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
 .profile-card .avatar { width:100px; height:100px; border-radius:50%; margin-bottom:12px; }
-
-.errors { background:#ffe5e5; color:#a40000; padding:10px; border-radius:6px; margin-bottom:15px; }
-.success { background:#d1fae5; color:#065f46; padding:10px; border-radius:6px; margin-bottom:15px; }
 
 @media(max-width:600px) { 
   .avatar-img { width:60px; height:60px; } 
@@ -152,5 +140,6 @@ document.querySelectorAll('.avatar-label').forEach(label => {
 </script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+
 
 
