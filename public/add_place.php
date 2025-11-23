@@ -5,7 +5,10 @@ $user = current_user($pdo);
 if ($user['user_type'] !== 'seeker') {
     die('Only seekers may add places.');
 }
+
 $errors = [];
+$preview_img = null;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -23,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $target = UPLOAD_DIR . $safe;
         if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
             $img = $safe;
+            $preview_img = $safe;
         } else {
             $errors[] = 'Image upload failed.';
         }
@@ -37,15 +41,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<h2>Add place</h2>
-<?php if (!empty($errors)): ?><div class="errors"><?php foreach($errors as $e) echo '<p>'.e($e).'</p>'; ?></div><?php endif; ?>
-<form method="post" enctype="multipart/form-data" class="form">
-  <label>Title<input name="title" required></label>
-  <label>Description<textarea name="description"></textarea></label>
-  <label>Requirements<textarea name="requirements"></textarea></label>
-  <label>Location<input name="location"></label>
-  <label>Tags (comma separated)<input name="tags"></label>
-  <label>Image<input name="image" type="file"></label>
-  <button type="submit">Add place</button>
-</form>
+
+<div class="vc-container" style="padding-top:40px; max-width:900px;">
+  <h2 style="margin-bottom:20px;">Add a Volunteer Place</h2>
+
+  <?php if (!empty($errors)): ?>
+    <div class="errors">
+      <?php foreach($errors as $e) echo '<p>'.e($e).'</p>'; ?>
+    </div>
+  <?php endif; ?>
+
+  <div style="display:flex;gap:30px;flex-wrap:wrap;">
+    <!-- Form column -->
+    <div style="flex:1; min-width:300px;">
+      <form method="post" enctype="multipart/form-data" class="form">
+        <label>Title<input name="title" required></label>
+        <label>Description<textarea name="description"></textarea></label>
+        <label>Requirements<textarea name="requirements"></textarea></label>
+        <label>Location<input name="location"></label>
+        <label>Tags (comma separated)<input name="tags"></label>
+        <label>Image<input name="image" type="file" onchange="previewImage(event)"></label>
+        <button type="submit">Add Place</button>
+      </form>
+    </div>
+
+    <!-- Preview column -->
+    <div style="flex:1; min-width:250px;">
+      <h3>Image Preview</h3>
+      <div style="border:1px solid #ddd; border-radius:12px; padding:10px; text-align:center; min-height:200px;">
+        <img id="imagePreview" src="<?php echo $preview_img ? 'uploads/' . e($preview_img) : ''; ?>" 
+             alt="Preview" style="max-width:100%; max-height:200px; border-radius:10px;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function previewImage(event){
+    const output = document.getElementById('imagePreview');
+    output.src = URL.createObjectURL(event.target.files[0]);
+}
+</script>
+
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
+

@@ -24,7 +24,7 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="hero-right" aria-hidden="true">
       <!-- Hero visual — using your uploaded image path. Replace if needed. -->
       <div class="hero-card">
-        <img src="/mnt/data/050187d2-6952-491a-966e-5c09122a48a1.png" alt="Volunteer Connect hero">
+        <img src="uploads/volunteer.jpg" alt="Volunteer Connect hero">
       </div>
     </div>
   </div>

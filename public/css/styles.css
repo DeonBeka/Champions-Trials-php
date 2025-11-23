@@ -92,3 +92,81 @@ body{
   .hero-stats{flex-direction:column}
 }
 
+/* Reset body so navbar & footer behave normally */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: #f4f7fa;
+    color: #222;
+}
+
+/* Center the register page content */
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+}
+
+/* Form container box */
+.form-container {
+    background: #ffffff;
+    padding: 35px;
+    width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Title */
+.form-container h2 {
+    margin-top: 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Inputs */
+.form label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.form input,
+.form select,
+.form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 1px solid #d3d8df;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.form button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: #2a7de1;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.form button:hover {
+    background: #1d62b8;
+}
+
+/* Error message */
+.errors {
+    background: #ffdddd;
+    color: #a40000;
+    border-left: 4px solid #d30000;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+
